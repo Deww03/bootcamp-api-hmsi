@@ -5,7 +5,10 @@ import (
 	"os"
 
 	"github.com/Deww03/bootcamp-api-hmsi/connectDB"
-	"github.com/Deww03/bootcamp-api-hmsi/query"
+	"github.com/Deww03/bootcamp-api-hmsi/modules/customers/customerHandler"
+	"github.com/Deww03/bootcamp-api-hmsi/modules/customers/customerRepository"
+	"github.com/Deww03/bootcamp-api-hmsi/modules/customers/customerUsecase"
+	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"github.com/rs/zerolog/log"
 )
@@ -42,25 +45,36 @@ func main() {
 	}
 	fmt.Println("Successfully connected")
 
+	//---Inisialisasi router---
+	var router = gin.Default()
+
+	//---Inisialisasi modules---
+	customerRepo := customerRepository.NewCustomerRepository(db)
+	customerUC := customerUsecase.NewCustomerUsecase(customerRepo)
+	customerHandler.NewCustomerHandler(router, customerUC)
+
+	log.Info().Msg("Server running on port" + PORT)
+	router.Run(":" + PORT)
+
 	// DB struct initialize
-	DB := query.DB{Conn: db}
+	//DB := query.DB{Conn: db}
 
 	// --create---
-	err = DB.Create(&query.Customers{
-		Name:  "Adam",
-		Phone: "085711228241",
-		Email: "adam@gmail.com",
-		Age:   19,
-	})
+	// err = DB.Create(&query.Customers{
+	// 	Name:  "Adam",
+	// 	Phone: "085711228241",
+	// 	Email: "adam@gmail.com",
+	// 	Age:   19,
+	// })
 
-	fmt.Println(err)
+	// fmt.Println(err)
 
-	if err != nil {
-		log.Error().Msg(errConn.Error())
-		os.Exit(1)
-	}
+	// if err != nil {
+	// 	log.Error().Msg(errConn.Error())
+	// 	os.Exit(1)
+	// }
 
-	fmt.Println("Insert Data Berhasil")
+	// fmt.Println("Insert Data Berhasil")
 
 	// ---read---
 	// result, err := DB.Read()
