@@ -40,7 +40,7 @@ func (db *DB) GetAll() (*[]models.Customers, error) {
 	return &result, nil
 }
 
-func (db *DB) Create(c *models.Customers) error {
+func (db *DB) Create(c *models.RequestInsertCustomer) error {
 	stmt, err := db.Conn.Prepare("INSERT INTO customers (name, phone, email, age) VALUES ($1, $2, $3, $4)")
 	if err != nil {
 		return err
