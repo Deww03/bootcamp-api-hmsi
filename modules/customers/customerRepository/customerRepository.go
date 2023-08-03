@@ -55,3 +55,27 @@ func (db *DB) Create(c *models.RequestInsertCustomer) error {
 
 	return nil
 }
+
+func (db *DB) Update(c *models.RequestUpdateCustomer) error {
+	stmt, err := db.Conn.Prepare("UPDATE customers SET name = $1, phone = $2, email = $3, age = $4 WHERE id = $5")
+	if err != nil {
+		return err
+	}
+
+	_, errExec := stmt.Exec(c.Name, c.Phone, c.Email, c.Age)
+
+	if err != nil {
+		return errExec
+	}
+
+	return nil
+}
+
+func (db *DB) Delete(Id uint64) error {
+	_, errExec := db.Conn.Exec(`DELETE FROM customers WHERE id = $1`, Id)
+	if errExec != nil {
+		return errExec
+	}
+
+	return nil
+}

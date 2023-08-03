@@ -17,9 +17,9 @@ type (
 	}
 
 	RequestUpdateCustomer struct {
-		Name  string `json:"name"`
-		Phone string `json:"phone"`
-		Email string `json:"email"`
-		Age   uint   `json:"age"`
+		Name  string `json:"name" binding:"required"`
+		Phone string `json:"phone" binding:"required"`
+		Email string `json:"email" binding:"required"`
+		Age   uint   `json:"age" binding:"required"`
 	}
 )

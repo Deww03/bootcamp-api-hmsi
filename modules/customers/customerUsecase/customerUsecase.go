@@ -31,3 +31,21 @@ func (r *customerRepository) Insert(c *models.RequestInsertCustomer) error {
 	}
 	return nil
 }
+
+func (r *customerRepository) Update(c *models.RequestUpdateCustomer) error {
+	err := r.Repo.Update(c)
+
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (r *customerRepository) Delete(Id uint64) error {
+	err := r.Repo.Delete(Id)
+
+	if err != nil {
+		return err
+	}
+	return nil
+}
